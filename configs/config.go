@@ -1,8 +1,6 @@
 package configs
 
 import (
-	"fmt"
-
 	"github.com/spf13/viper"
 )
 
@@ -29,6 +27,5 @@ func LoadConfig() (*Config, error) {
 		RedisPassword: viper.GetString("REDIS_PASSWORD"),
 		RedisDB:       viper.GetInt("REDIS_DB"),
 	}
-	fmt.Print(cfg)
 	return cfg, nil
 }
