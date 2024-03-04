@@ -9,7 +9,8 @@ create table "transaction" (
     "amount" bigint not null,
     "kind" char(1) not null,
     "description" text not null,
-    "timestamp" timestamp not null
+    "timestamp" timestamp not null,
+    constraint fk_account foreign key ("accountId") references "account" ("id")
 );
 
 insert into "account" (
