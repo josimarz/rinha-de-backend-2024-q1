@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"fmt"
-	"log"
 	"time"
 
 	"github.com/go-redsync/redsync/v4"
@@ -97,14 +96,12 @@ func NewDoTransactionUseCase(dbGateway gateway.DatabaseGateway, rs *redsync.Reds
 func (uc *DoTransactionUseCase) Execute(input *DoTransactionInput) (*DoTransactionOuput, error) {
 	name := fmt.Sprintf("%v", input.AccountId)
 	mu := uc.rs.NewMutex(name)
-	if err := mu.Lock(); err != nil {
-		return nil, err
-	}
-	defer func() {
-		if ok, err := mu.Unlock(); !ok || err != nil {
-			log.Fatal(err)
+	for {
+		if err := mu.Lock(); err == nil {
+			break
 		}
-	}()
+	}
+	defer mu.Unlock()
 	account, err := uc.dbGateway.GetAccount(input.AccountId)
 	if err != nil {
 		return nil, err

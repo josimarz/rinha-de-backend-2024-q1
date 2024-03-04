@@ -1,10 +1,10 @@
-create table "account" (
+create unlogged table "account" (
     "id" smallint not null primary key,
     "limit" bigint not null,
     "balance" bigint not null
 );
 
-create table "transaction" (
+create unlogged table "transaction" (
     "accountId" smallint not null,
     "amount" bigint not null,
     "kind" char(1) not null,
